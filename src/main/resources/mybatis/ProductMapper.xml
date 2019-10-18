@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neuedu.ForeTmall.model.mapper.ProductMapper">
+	<!-- 查询所有的产品信息 -->
+	<select id="getAllProductsByCid" parameterType="int" resultMap="productResult">
+		select p.id pid, p.name pname, p.subTitle psubTitle,p.originalPrice poriginalPrice, p.promotePrice ppromotePrice, pimg.id pimgid
+		from product p
+		left outer join productimage pimg
+		on p.id=pimg.pid
+		where cid=#{cid}
+	
+	</select>	
+	<resultMap type="Product" id="productResult">
+		<result property="id" column="pid"/>
+		<result property="name" column="pname"/>
+		<result property="subTitle" column="psubTitle"/>
+		<result property="originalPrice" column="poriginalPrice"/>
+		<result property="promotePrice" column="ppromotePrice"/>
+		<result property="stock" column="pstock"/>
+		<result property="cid" column="pcid"/>
+		<collection property="pro" ofType="ProductImage">
+			<result property="id" column="pimgid"/>
+			<result property="type" column="pimgtype"/>
+		</collection>
+	</resultMap>
+	
+	
+	<!-- 根据pid查询单一产品信息 -->
+	<select id="getProductByPid" parameterType="int" resultMap="productResult">
+		select p.id pid, p.name pname, p.subTitle psubTitle,p.originalPrice poriginalPrice, p.promotePrice ppromotePrice, p.stock pstock, p.cid pcid, pimg.id pimgid, pimg.type pimgtype 
+		from product p
+		left outer join productimage pimg
+		on p.id=pimg.pid
+		where pid=#{pid}
+	</select>
+</mapper>

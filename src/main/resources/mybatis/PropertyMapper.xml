@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neuedu.ForeTmall.model.mapper.PropertyMapper" >
+	
+	
+	
+	<select id="getPropertiesById" parameterType="map" resultMap="PVM">
+		select t.ptname, ptv.value, t.ptid tptid, ptv.id ptvid from propertyvalue ptv
+		right outer join 
+		(select pt.id ptid, pt.name ptname from property pt where cid=#{cid})t
+		on ptv.ptid=t.ptid
+		and ptv.pid=#{pid}
+	</select>
+	<resultMap type="Property" id="PVM">
+		<result property="id" column="tptid"/>
+		<result property="name" column="ptname"/>
+		<association property="propertyValue" javaType="PropertyValue"   resultMap="ProValue"  >
+		</association>
+	</resultMap>
+	
+	<resultMap type="PropertyValue" id="ProValue">
+			<result property="id" column="ptvid"/>
+			<result property="value" column="value"/>
+		</resultMap>
+	
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
